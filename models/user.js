@@ -11,8 +11,8 @@ const userSchema = new Schema({
     unique: true,
   },
   password: { type: String, minLength: 6, maxLength: 100, required: true },
-  profileImg: { type: String },
+  profileImg: { type: String, minLength: 1 },
   friendList: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  friendRequests: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  friendRequest: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 module.exports = mongoose.model("User", userSchema);
