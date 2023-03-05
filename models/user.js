@@ -1,0 +1,18 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const userSchema = new Schema({
+  Name: { type: String, minLength: 6, maxLength: 100, required: true },
+  email: { type: String, minLength: 6, maxLength: 100, required: true },
+  username: {
+    type: String,
+    minLength: 6,
+    maxLength: 100,
+    required: true,
+    unique: true,
+  },
+  password: { type: String, minLength: 6, maxLength: 100, required: true },
+  profileImg: { type: String },
+  friendList: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  friendRequests: [{ type: Schema.Types.ObjectId, ref: "User" }],
+});
+module.exports = mongoose.model("User", userSchema);
