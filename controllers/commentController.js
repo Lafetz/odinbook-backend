@@ -25,6 +25,7 @@ exports.Add_comment = async (req, res, next) => {
       postID: req.params.postId,
       userId: req.user._id,
       content: req.body.content,
+      imgUrl: req.body.imgUrl ? req.body.imgUrl : null,
     });
     await comment.save();
     res.sendStatus(200);

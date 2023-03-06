@@ -18,11 +18,34 @@ exports.Get_Post = async (req, res, next) => {
     res.status(500).json(err.message);
   }
 };
+exports.Like_Post = async (req, res, next) => {
+  try {
+    await Post.findOneAndUpdate(
+      { _id: req.params.postId },
+      { $push: { likedBy: req.user._id } }
+    );
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
+exports.Unlike_Post = async (req, res, next) => {
+  try {
+    await Post.findOneAndUpdate(
+      { _id: req.params.postId },
+      { $pull: { likedBy: req.user._id } }
+    );
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
 exports.Add_Post = async (req, res, next) => {
   try {
     const post = new Post({
       userId: req.user._id,
       content: req.body.content,
+      imgUrl: req.body.imgUrl ? req.body.imgUrl : null,
     });
     await post.save();
     res.sendStatus(200);
@@ -33,7 +56,7 @@ exports.Add_Post = async (req, res, next) => {
 exports.Update_Post = async (req, res, next) => {
   try {
     await Post.findOneAndUpdate(
-      { _id: req.params.PostId },
+      { _id: req.params.postId },
       { content: req.body.content }
     );
     res.sendStatus(200);
