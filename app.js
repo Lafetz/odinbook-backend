@@ -1,15 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const routes = require("./routes/routes");
 require("dotenv").config();
+const verifyUser = require("./middleware/verifyUser");
+const user = require("./routes/user");
 const app = express();
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MongoDB);
-app.use("/", (req, res, next) => {
-  req.user = { friendList: [] };
-  next();
-});
-app.use("/", routes);
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(verifyUser);
+app.use("/auth", user);
+// app.use("/posts",post)
 app.listen(process.env.PORT, () => {
   console.log(`server on ${process.env.PORT}`);
 });

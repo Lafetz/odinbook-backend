@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-//user feed
+//posts
 router.get("/posts");
 
 module.exports = router;
