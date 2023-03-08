@@ -46,3 +46,21 @@ exports.User_Remove = async (req, res, next) => {
     res.status(500).json(err.message);
   }
 };
+exports.User_Owner = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
+exports.User_Profile = async (req, res, next) => {
+  console.log("this is user profile");
+  try {
+    const user = await User.findById(req.params.userID);
+    console.log(user);
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};

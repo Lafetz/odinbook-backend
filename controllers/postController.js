@@ -47,8 +47,8 @@ exports.Add_Post = async (req, res, next) => {
       content: req.body.content,
       imgUrl: req.body.imgUrl ? req.body.imgUrl : null,
     });
-    await post.save();
-    res.sendStatus(200);
+    const savedPost = await post.save();
+    res.sendStatus(200).json(savedPost);
   } catch (err) {
     res.status(500).json(err.message);
   }

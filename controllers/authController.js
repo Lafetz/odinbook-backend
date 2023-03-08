@@ -21,6 +21,7 @@ exports.User_signup = async (req, res, next) => {
   }
 };
 exports.User_Login = async (req, res, next) => {
+  console.log("user logging in");
   try {
     const user = await User.find({ username: req.body.username });
     if (user.length === 0) {

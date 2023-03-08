@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+
 const verifyUser = async (req, res, next) => {
   try {
     const header = req.headers.authorization;
@@ -7,6 +8,7 @@ const verifyUser = async (req, res, next) => {
       return res.status(401).end();
     }
     const token = header.split(" ")[1];
+
     const data = jwt.verify(token, process.env.TOP_KEY);
 
     req.user = data;
