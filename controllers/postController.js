@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 exports.All_posts = async (req, res, next) => {
+  console.log("whats happening");
   try {
     const posts = await Post.find({ userId: { $in: req.user.friendList } })
       .sort({ timeStamp: -1 })
@@ -43,12 +44,12 @@ exports.Unlike_Post = async (req, res, next) => {
 exports.Add_Post = async (req, res, next) => {
   try {
     const post = new Post({
-      userId: req.user._id,
+      user: req.user,
       content: req.body.content,
       imgUrl: req.body.imgUrl ? req.body.imgUrl : null,
     });
     const savedPost = await post.save();
-    res.sendStatus(200).json(savedPost);
+    res.status(200).json(savedPost);
   } catch (err) {
     res.status(500).json(err.message);
   }
