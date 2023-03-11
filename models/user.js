@@ -10,7 +10,6 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-
   password: { type: String, minLength: 6, maxLength: 100, required: true },
   profileImg: { type: String },
   friendList: [{ type: Schema.Types.ObjectId, ref: "User" }],

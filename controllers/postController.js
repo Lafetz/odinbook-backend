@@ -3,11 +3,11 @@ const User = require("../models/user");
 exports.All_posts = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
-    console.log(user.friendList[0]);
+
     const posts = await Post.find({
       userId: { $in: user.friendList },
     }).populate("userId");
-    console.log(posts);
+
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err.message);
@@ -44,8 +44,6 @@ exports.Unlike_Post = async (req, res, next) => {
   }
 };
 exports.Add_Post = async (req, res, next) => {
-  console.log(req.user._id);
-  ///{ $in: user.friendList }
   try {
     const post = new Post({
       user: req.user,
