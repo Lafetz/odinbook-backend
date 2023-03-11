@@ -1,6 +1,5 @@
 const Post = require("../models/post");
 exports.All_posts = async (req, res, next) => {
-  console.log("whats happening");
   try {
     const posts = await Post.find({ userId: { $in: req.user.friendList } })
       .sort({ timeStamp: -1 })

@@ -19,6 +19,12 @@ exports.User_Accept = async (req, res, next) => {
         $pull: { friendRequest: req.body.id },
       }
     );
+    await User.findOneAndUpdate(
+      { _id: req.body.id },
+      {
+        $push: { friendList: req.user._id },
+      }
+    );
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err.message);
@@ -57,7 +63,7 @@ exports.User_Owner = async (req, res, next) => {
 exports.User_Profile = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userID);
-    console.log(user);
+
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err.message);
@@ -73,3 +79,4 @@ exports.User_list = async (req, res, next) => {
     res.status(500).json(err.message);
   }
 };
+//
