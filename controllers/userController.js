@@ -47,6 +47,10 @@ exports.User_Remove = async (req, res, next) => {
       { _id: req.user._id },
       { $pull: { friendList: req.body.id } }
     );
+    await User.findOneAndUpdate(
+      { _id: req.body.id },
+      { $pull: { friendList: req.user._id } }
+    );
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err.message);
@@ -70,12 +74,14 @@ exports.User_Profile = async (req, res, next) => {
   }
 };
 exports.User_list = async (req, res, next) => {
+  console.log(req.body);
   try {
-    const people = [...req.user.friendList, req.user._id];
+    const people = [...req.body.user.friendList, req.body.user._id];
     const users = await User.find({ _id: { $nin: people } });
 
     res.status(200).json(users);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err.message);
   }
 };
