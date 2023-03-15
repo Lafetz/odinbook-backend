@@ -1,11 +1,12 @@
 const User = require("../models/user");
 exports.User_Request = async (req, res, next) => {
   try {
-    await User.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
       { _id: req.body.id },
-      { $push: { friendRequest: req.user._id } }
+      { $push: { friendRequest: req.user._id } },
+      { new: true }
     );
-    res.sendStatus(200);
+    res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -17,7 +18,8 @@ exports.User_Accept = async (req, res, next) => {
       {
         $push: { friendList: req.body.id },
         $pull: { friendRequest: req.body.id },
-      }
+      },
+      { new: true }
     );
     await User.findOneAndUpdate(
       { _id: req.body.id },
@@ -32,11 +34,12 @@ exports.User_Accept = async (req, res, next) => {
 };
 exports.User_Reject = async (req, res, next) => {
   try {
-    await User.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
       { _id: req.user._id },
-      { $pull: { friendRequest: req.body.id } }
+      { $pull: { friendRequest: req.body.id } },
+      { new: true }
     );
-    res.sendStatus(200);
+    res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -45,7 +48,8 @@ exports.User_Remove = async (req, res, next) => {
   try {
     const user = await User.findOneAndUpdate(
       { _id: req.user._id },
-      { $pull: { friendList: req.body.id } }
+      { $pull: { friendList: req.body.id } },
+      { new: true }
     );
     await User.findOneAndUpdate(
       { _id: req.body.id },
@@ -74,14 +78,12 @@ exports.User_Profile = async (req, res, next) => {
   }
 };
 exports.User_list = async (req, res, next) => {
-  console.log(req.body);
   try {
     const people = [...req.body.user.friendList, req.body.user._id];
     const users = await User.find({ _id: { $nin: people } });
 
     res.status(200).json(users);
   } catch (err) {
-    console.log(err);
     res.status(500).json(err.message);
   }
 };

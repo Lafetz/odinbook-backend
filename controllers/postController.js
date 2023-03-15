@@ -5,7 +5,20 @@ exports.All_posts = async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
     const posts = await Post.find({
-      userId: { $in: user.friendList },
+      userId: { $in: [...user.friendList, req.user._id] },
+    })
+      .sort({ timeStamp: "descending" })
+      .populate("userId");
+
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
+exports.User_posts = async (req, res, next) => {
+  try {
+    const posts = await Post.find({
+      userId: req.params.userId,
     }).populate("userId");
 
     res.status(200).json(posts);
@@ -23,22 +36,25 @@ exports.Get_Post = async (req, res, next) => {
 };
 exports.Like_Post = async (req, res, next) => {
   try {
-    await Post.findOneAndUpdate(
+    const post = await Post.findOneAndUpdate(
       { _id: req.params.postId },
-      { $push: { likedBy: req.user._id } }
-    );
-    res.sendStatus(200);
+      { $push: { likedBy: req.user._id } },
+      { new: true }
+    ).populate("userId");
+
+    res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err.message);
   }
 };
 exports.Unlike_Post = async (req, res, next) => {
   try {
-    await Post.findOneAndUpdate(
+    const post = await Post.findOneAndUpdate(
       { _id: req.params.postId },
-      { $pull: { likedBy: req.user._id } }
-    );
-    res.sendStatus(200);
+      { $pull: { likedBy: req.user._id } },
+      { new: true }
+    ).populate("userId");
+    res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -52,6 +68,8 @@ exports.Add_Post = async (req, res, next) => {
       imgUrl: req.body.imgUrl ? req.body.imgUrl : null,
     });
     const savedPost = await post.save();
+    await savedPost.populate("userId");
+
     res.status(200).json(savedPost);
   } catch (err) {
     res.status(500).json(err.message);
@@ -76,3 +94,4 @@ exports.Remove_Post = async (req, res, next) => {
     res.status(500).json(err.message);
   }
 };
+//

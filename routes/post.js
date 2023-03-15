@@ -11,9 +11,10 @@ router.delete("/postId", postController.Remove_Post);
 //
 router.post("/:postId/like", postController.Like_Post);
 router.delete("/:postId/like", postController.Unlike_Post);
+router.get("/:userId", postController.User_posts);
 
 router.post("/:postId/comments", commentController.Add_comment);
-//router.put("/postId/comments/commentId", commentController.Update_comment);
+router.get("/:postId/comments", commentController.Get_comments);
 router.delete("/:postId/comments/:commentId", commentController.Remove_comment);
 
 module.exports = router;
