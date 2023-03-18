@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", postController.All_posts);
 router.post("/", postController.Add_Post);
 router.put("/postId", postController.Update_Post);
-router.delete("/postId", postController.Remove_Post);
+router.delete("/:postId", postController.Remove_Post);
 //
 router.post("/:postId/like", postController.Like_Post);
 router.delete("/:postId/like", postController.Unlike_Post);

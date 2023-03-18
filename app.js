@@ -8,8 +8,12 @@ const userAuth = require("./routes/userAuth");
 const cors = require("cors");
 const app = express();
 
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MongoDB);
+try {
+  mongoose.set("strictQuery", false);
+  mongoose.connect(process.env.MongoDB);
+} catch (err) {
+  console.log(err);
+}
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
