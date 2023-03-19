@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+
 exports.All_posts = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
@@ -65,7 +66,7 @@ exports.Add_Post = async (req, res, next) => {
       user: req.user,
       userId: req.user._id,
       content: req.body.content,
-      imgUrl: req.body.imgUrl ? req.body.imgUrl : null,
+      img: req.body.img,
     });
     const savedPost = await post.save();
     await savedPost.populate("userId");
