@@ -11,7 +11,7 @@ const userSchema = new Schema({
     unique: true,
   },
   password: { type: String, minLength: 6, maxLength: 100, required: true },
-  imgUrl: { type: String, minLength: 1, default: null },
+  profileImg: { type: String, minLength: 1, default: null },
   friendList: [{ type: Schema.Types.ObjectId, ref: "User" }],
   friendRequest: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
