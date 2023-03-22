@@ -10,7 +10,7 @@ exports.All_posts = async (req, res, next) => {
     })
       .sort({ timeStamp: "descending" })
       .populate("userId");
-
+    posts.v;
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err.message);

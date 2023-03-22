@@ -10,12 +10,12 @@ exports.User_signup = async (req, res, next) => {
       email: req.body.email,
       username: req.body.username,
       password: hashedpassword,
-      profileImg: req.body.imgUrl ? req.body.imgUrl : null,
+      img: req.body.img,
       friendList: [],
       friendRequest: [],
     });
     await user.save();
-    res.sendStatus(200);
+    res.status(200).json(user);
   } catch (err) {
     console.log(err);
     res.status(500).json(err.message);

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const userSchema = new Schema(
   {
-    Name: { type: String, minLength: 6, maxLength: 100, required: true },
-    email: { type: String, minLength: 6, maxLength: 100, required: true },
+    Name: { type: String, maxLength: 100, required: true },
+    email: { type: String, maxLength: 100, required: true },
     username: {
       type: String,
       minLength: 6,
@@ -11,7 +11,7 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
-    password: { type: String, minLength: 6, maxLength: 100, required: true },
+    password: { type: String, maxLength: 100, required: true },
     img: { type: Boolean, default: false },
     friendList: [{ type: Schema.Types.ObjectId, ref: "User" }],
     friendRequest: [{ type: Schema.Types.ObjectId, ref: "User" }],
